@@ -1,0 +1,17 @@
+{"time":"2025-04-14T19:41:30.405074648Z","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"../models/linear_regression/57c7c4d0-2d10-4e3c-af66-a3eb66b53d78/wandb/run-20250414_194130-mf41tmnz/logs/debug-core.log"}
+{"time":"2025-04-14T19:41:30.559586051Z","level":"INFO","msg":"created new stream","id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:30.559626311Z","level":"INFO","msg":"stream: started","id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:30.559659472Z","level":"INFO","msg":"sender: started","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:30.559661642Z","level":"INFO","msg":"writer: Do: started","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:30.559724692Z","level":"INFO","msg":"handler: started","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:30.625146104Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-04-14T19:41:30.625248135Z","level":"ERROR","msg":"sender: upsertRun:","error":"failed to upsert bucket: returned error 404: {\"data\":{\"upsertBucket\":null},\"errors\":[{\"message\":\"entity in-context-mamba not found during upsertBucket\",\"path\":[\"upsertBucket\"]}]}"}
+{"time":"2025-04-14T19:41:31.627405785Z","level":"INFO","msg":"stream: closing","id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:31.627482856Z","level":"ERROR","msg":"sender: upsertConfig: RunRecord is nil"}
+{"time":"2025-04-14T19:41:31.706321492Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2025-04-14T19:41:31.706460103Z","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404: {\"data\":{\"createRunFiles\":null},\"errors\":[{\"message\":\"entity in-context-mamba not found during createRunFiles\",\"path\":[\"createRunFiles\"]}]}"}
+{"time":"2025-04-14T19:41:31.706884947Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-14T19:41:31.706928298Z","level":"INFO","msg":"handler: closed","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:31.706937328Z","level":"INFO","msg":"writer: Close: closed","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:31.706958588Z","level":"INFO","msg":"sender: closed","stream_id":"mf41tmnz"}
+{"time":"2025-04-14T19:41:31.707002708Z","level":"INFO","msg":"stream: closed","id":"mf41tmnz"}

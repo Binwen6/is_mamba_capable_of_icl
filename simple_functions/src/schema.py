@@ -41,7 +41,9 @@ TASK_LIST = [
     "linear_classification",
     "relu_2nn_regression",
     "decision_tree",
-    "skewed_linear_regression"
+    "skewed_linear_regression",
+    "gaussian_kernel_regression",
+    "nonlinear_dynamical_system"
 ]
 
 training_schema = {

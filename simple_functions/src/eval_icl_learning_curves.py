@@ -29,6 +29,10 @@ def eval_icl_learning_curve(model_type: str, probing: bool = False, data: str = 
             model, conf = get_model_from_run('path')
         elif task_name == 'decision_tree':
             model, conf = get_model_from_run('path')
+        elif task_name == 'gaussian_kernel_regression':
+            model, conf = get_model_from_run('path')
+        elif task_name == 'nonlinear_dynamical_system':
+            model, conf = get_model_from_run('path')
         decoder = lambda x: model._read_out(model._backbone.ln_f(x))
         layers = [f'_backbone.h.{i}' for i in range(12)]
 
@@ -39,6 +43,10 @@ def eval_icl_learning_curve(model_type: str, probing: bool = False, data: str = 
         elif task_name == 'relu_2nn_regression':
             model, conf = get_model_from_run('path')
         elif task_name == 'decision_tree':
+            model, conf = get_model_from_run('path')
+        elif task_name == 'gaussian_kernel_regression':
+            model, conf = get_model_from_run('path')
+        elif task_name == 'nonlinear_dynamical_system':
             model, conf = get_model_from_run('path')
         from mamba_ssm.ops.triton.layernorm import rms_norm_fn
         fused_add_norm_fn = lambda hidden_state, residual: (
@@ -383,12 +391,12 @@ if __name__ == "__main__":
                 for task in ['relu_2nn_regression', 'decision_tree']:
                     eval_icl_learning_curve(
                         model_type, probing,
-                        'gaussian' if task in ['relu_2nn_regression', 'decision_tree', 'sparse_linear_regression']
+                        'gaussian' if task in ['relu_2nn_regression', 'decision_tree', 'sparse_linear_regression', 'gaussian_kernel_regression', 'nonlinear_dynamical_system']  # noqa
                         else 'skewed_gaussian',
                         task
                     )
 
-    for task in ['linear_regression', 'sparse_linear_regression', 'relu_2nn_regression', 'decision_tree']:
+    for task in ['linear_regression', 'sparse_linear_regression', 'relu_2nn_regression', 'decision_tree', 'gaussian_kernel_regression', 'nonlinear_dynamical_system']:
        for n_points_lr in [10]:
             plot_icl_learning_curve(task, probing=True, n_points_lr=n_points_lr)
 

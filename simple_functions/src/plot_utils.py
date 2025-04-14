@@ -45,6 +45,20 @@ relevant_model_names = {
         # "3-Nearest Neighbors",
         "2-layer NN, GD",
     ],
+    "gaussian_kernel_regression": [
+        "S4",
+        "Mamba",
+        "Transformer",
+        # "3-Nearest Neighbors",
+        # "Averaging",
+    ],
+    "nonlinear_dynamical_system": [
+        "S4",
+        "Mamba",
+        "Transformer",
+        # "3-Nearest Neighbors",
+        # "Averaging",
+    ]
 }
 
 
