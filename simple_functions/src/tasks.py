@@ -65,7 +65,7 @@ def get_task_sampler(
         "relu_2nn_regression": Relu2nnRegression,
         "decision_tree": DecisionTree,
         "gaussian_kernel_regression": GaussianKernelRegression,
-        "nonlinear_dynamical_system": NonlinearDynamicalSystem
+        "nonlinear_dynamical_system": NonlinearDynamicalSystemAutoRegressive
     }
     if task_name in task_names_to_classes:
         task_cls = task_names_to_classes[task_name]
@@ -395,7 +395,7 @@ class GaussianKernelRegression(Task):
         return mean_squared_error
 
 
-class NonlinearDynamicalSystem(Task):
+class NonlinearDynamicalSystemAutoRegressive(Task):
     def __init__(self, n_dims, batch_size, pool_dict=None, seeds=None, scale=1.0, nonlinearity="tanh"):
         super().__init__(n_dims, batch_size, pool_dict, seeds)
         self.scale = scale
@@ -413,21 +413,35 @@ class NonlinearDynamicalSystem(Task):
             self.A = pool_dict["A"]
 
     def evaluate(self, xs_b):
-        # xs_b: [B, T, D]
+        """
+        xs_b: [B, T, D] —> we use only the first x_0 as seed
+        returns: ys: [B, T]
+        """
+        B, T, D = xs_b.shape
         A = self.A.to(xs_b.device)
-        z = xs_b @ A.transpose(1, 2)  # [B, T, D]
 
-        if self.nonlinearity == "tanh":
-            z = torch.tanh(z)
-        elif self.nonlinearity == "sigmoid":
-            z = torch.sigmoid(z)
-        elif self.nonlinearity == "relu":
-            z = torch.relu(z)
-        else:
-            raise NotImplementedError("Unknown nonlinearity")
+        # Start from x_0
+        x_t = xs_b[:, 0, :]  # [B, D]
+        traj = [x_t]
 
-        ys = z.sum(dim=-1) * self.scale  # [B, T]
+        # Generate trajectory
+        for t in range(1, T):
+            x_t = self._nonlinear(torch.bmm(x_t.unsqueeze(1), A).squeeze(1))  # [B, D]
+            traj.append(x_t)
+
+        x_traj = torch.stack(traj, dim=1)  # [B, T, D]
+        ys = x_traj.sum(dim=-1) * self.scale  # [B, T]
         return ys
+
+    def _nonlinear(self, x):
+        if self.nonlinearity == "tanh":
+            return torch.tanh(x)
+        elif self.nonlinearity == "relu":
+            return torch.relu(x)
+        elif self.nonlinearity == "sigmoid":
+            return torch.sigmoid(x)
+        else:
+            raise NotImplementedError(f"Unknown nonlinearity: {self.nonlinearity}")
 
     @staticmethod
     def generate_pool_dict(n_dims, num_tasks, **kwargs):
