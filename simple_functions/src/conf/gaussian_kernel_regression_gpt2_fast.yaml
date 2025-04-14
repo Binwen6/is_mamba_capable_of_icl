@@ -24,3 +24,6 @@ wandb:
 
 # cd src
 # PYTHONPATH=../../. python train.py --config conf/gaussian_kernel_regression_gpt2_fast.yaml
+
+
+# PYTHONPATH=../../. python eval.py ../models/gkr_gpt2_fast/420fe524-1de3-4eae-ab6c-e02145a4999c

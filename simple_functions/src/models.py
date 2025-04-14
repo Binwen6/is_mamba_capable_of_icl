@@ -46,13 +46,13 @@ def build_model(conf):
             n_embd=conf.n_embd,
             n_layer=conf.n_layer,
         )
-    elif conf.family == "s4":
-        model = S4Model(
-            n_dims=conf.n_dims,
-            n_positions=conf.n_positions,
-            n_embd=conf.n_embd,
-            n_layer=conf.n_layer
-        )
+    # elif conf.family == "s4":
+    #     model = S4Model(
+    #         n_dims=conf.n_dims,
+    #         n_positions=conf.n_positions,
+    #         n_embd=conf.n_embd,
+    #         n_layer=conf.n_layer
+    #     )
     else:
         raise NotImplementedError
 
@@ -123,38 +123,38 @@ def get_relevant_baselines(task_name):
     return models
 
 
-class S4Model(S4ModelBase):
-    def __init__(self, n_dims, n_positions, lr=1e-4, n_embd=128, n_layer=12):
-        super(S4Model, self).__init__(d_input=n_dims, d_output=1, d_model=n_embd, n_layer=n_layer, lr=lr)
-        self.name = f"s4_embd={n_embd}_layer={n_layer}_n_dims={n_dims}"
-        self.n_positions = n_positions
-        self.n_dims = n_dims
+# class S4Model(S4ModelBase):
+#     def __init__(self, n_dims, n_positions, lr=1e-4, n_embd=128, n_layer=12):
+#         super(S4Model, self).__init__(d_input=n_dims, d_output=1, d_model=n_embd, n_layer=n_layer, lr=lr)
+#         self.name = f"s4_embd={n_embd}_layer={n_layer}_n_dims={n_dims}"
+#         self.n_positions = n_positions
+#         self.n_dims = n_dims
 
-    @staticmethod
-    def _combine(xs_b, ys_b):
-        """Interleaves the x's and the y's into a single sequence."""
-        bsize, points, dim = xs_b.shape
-        ys_b_wide = torch.cat(
-            (
-                ys_b.view(bsize, points, 1),
-                torch.zeros(bsize, points, dim - 1, device=ys_b.device),
-            ),
-            axis=2,
-        )
-        zs = torch.stack((xs_b, ys_b_wide), dim=2)
-        zs = zs.view(bsize, 2 * points, dim)
-        return zs
+#     @staticmethod
+#     def _combine(xs_b, ys_b):
+#         """Interleaves the x's and the y's into a single sequence."""
+#         bsize, points, dim = xs_b.shape
+#         ys_b_wide = torch.cat(
+#             (
+#                 ys_b.view(bsize, points, 1),
+#                 torch.zeros(bsize, points, dim - 1, device=ys_b.device),
+#             ),
+#             axis=2,
+#         )
+#         zs = torch.stack((xs_b, ys_b_wide), dim=2)
+#         zs = zs.view(bsize, 2 * points, dim)
+#         return zs
 
-    def forward(self, xs, ys, inds=None):
-        if inds is None:
-            inds = torch.arange(ys.shape[1])
-        else:
-            inds = torch.tensor(inds)
-            if max(inds) >= ys.shape[1] or min(inds) < 0:
-                raise ValueError("inds contain indices where xs and ys are not defined")
-        zs = self._combine(xs, ys)
-        prediction = super().forward(zs)
-        return prediction[:, ::2, 0][:, inds]  # predict only on xs
+#     def forward(self, xs, ys, inds=None):
+#         if inds is None:
+#             inds = torch.arange(ys.shape[1])
+#         else:
+#             inds = torch.tensor(inds)
+#             if max(inds) >= ys.shape[1] or min(inds) < 0:
+#                 raise ValueError("inds contain indices where xs and ys are not defined")
+#         zs = self._combine(xs, ys)
+#         prediction = super().forward(zs)
+#         return prediction[:, ::2, 0][:, inds]  # predict only on xs
 
 
 class MambaModel(nn.Module):
