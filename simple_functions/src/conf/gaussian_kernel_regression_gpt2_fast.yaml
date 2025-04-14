@@ -1,0 +1,26 @@
+inherit:
+  - base.yaml
+
+model:
+  n_layer: 4
+  n_embd: 64
+
+training:
+  task: gaussian_kernel_regression
+  seed: 1
+  batch_size: 16
+  total_steps: 200
+  curriculum:
+    points:
+      start: 11
+      end: 13
+      inc: 2
+      interval: 50
+
+out_dir: ../models/gkr_gpt2_fast
+
+wandb:
+  name: "gkr_gpt2_fast_debug"
+
+# cd src
+# PYTHONPATH=../../. python train.py --config conf/gaussian_kernel_regression_gpt2_fast.yaml
