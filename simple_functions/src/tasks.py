@@ -63,7 +63,9 @@ def get_task_sampler(
         "noisy_linear_regression": NoisyLinearRegression,
         "quadratic_regression": QuadraticRegression,
         "relu_2nn_regression": Relu2nnRegression,
-        "decision_tree": DecisionTree
+        "decision_tree": DecisionTree,
+        "gaussian_kernel_regression": GaussianKernelRegression,
+        "nonlinear_dynamical_system": NonlinearDynamicalSystem
     }
     if task_name in task_names_to_classes:
         task_cls = task_names_to_classes[task_name]
@@ -338,6 +340,100 @@ class DecisionTree(Task):
     @staticmethod
     def generate_pool_dict(n_dims, num_tasks, hidden_layer_size=4, **kwargs):
         raise NotImplementedError
+
+    @staticmethod
+    def get_metric():
+        return squared_error
+
+    @staticmethod
+    def get_training_metric():
+        return mean_squared_error
+
+
+class GaussianKernelRegression(Task):
+    def __init__(self, n_dims, batch_size, pool_dict=None, seeds=None, scale=1, bandwidth=1.0):
+        super().__init__(n_dims, batch_size, pool_dict, seeds)
+        self.scale = scale
+        self.bandwidth = bandwidth
+
+        if pool_dict is None and seeds is None:
+            self.x_centers = torch.randn(self.b_size, self.n_dims)
+            self.weights = torch.randn(self.b_size)
+        elif seeds is not None:
+            generator = torch.Generator()
+            self.x_centers = torch.zeros(self.b_size, self.n_dims)
+            self.weights = torch.zeros(self.b_size)
+            for i, seed in enumerate(seeds):
+                generator.manual_seed(seed)
+                self.x_centers[i] = torch.randn(self.n_dims, generator=generator)
+                self.weights[i] = torch.randn(1, generator=generator)
+        else:
+            self.x_centers = pool_dict["centers"]
+            self.weights = pool_dict["weights"]
+
+    def evaluate(self, xs_b):
+        # xs_b: [B, T, D]
+        diffs = xs_b - self.x_centers[:, None, :]  # [B, T, D]
+        dists_sq = (diffs ** 2).sum(dim=-1)  # [B, T]
+        kernel_vals = torch.exp(-dists_sq / (2 * self.bandwidth ** 2))
+        ys = self.scale * self.weights[:, None] * kernel_vals  # [B, T]
+        return ys
+
+    @staticmethod
+    def generate_pool_dict(n_dims, num_tasks, **kwargs):
+        return {
+            "centers": torch.randn(num_tasks, n_dims),
+            "weights": torch.randn(num_tasks)
+        }
+
+    @staticmethod
+    def get_metric():
+        return squared_error
+
+    @staticmethod
+    def get_training_metric():
+        return mean_squared_error
+
+
+class NonlinearDynamicalSystem(Task):
+    def __init__(self, n_dims, batch_size, pool_dict=None, seeds=None, scale=1.0, nonlinearity="tanh"):
+        super().__init__(n_dims, batch_size, pool_dict, seeds)
+        self.scale = scale
+        self.nonlinearity = nonlinearity
+
+        if pool_dict is None and seeds is None:
+            self.A = torch.randn(batch_size, n_dims, n_dims)
+        elif seeds is not None:
+            self.A = torch.zeros(batch_size, n_dims, n_dims)
+            generator = torch.Generator()
+            for i, seed in enumerate(seeds):
+                generator.manual_seed(seed)
+                self.A[i] = torch.randn(n_dims, n_dims, generator=generator)
+        else:
+            self.A = pool_dict["A"]
+
+    def evaluate(self, xs_b):
+        # xs_b: [B, T, D]
+        A = self.A.to(xs_b.device)
+        z = xs_b @ A.transpose(1, 2)  # [B, T, D]
+
+        if self.nonlinearity == "tanh":
+            z = torch.tanh(z)
+        elif self.nonlinearity == "sigmoid":
+            z = torch.sigmoid(z)
+        elif self.nonlinearity == "relu":
+            z = torch.relu(z)
+        else:
+            raise NotImplementedError("Unknown nonlinearity")
+
+        ys = z.sum(dim=-1) * self.scale  # [B, T]
+        return ys
+
+    @staticmethod
+    def generate_pool_dict(n_dims, num_tasks, **kwargs):
+        return {
+            "A": torch.randn(num_tasks, n_dims, n_dims)
+        }
 
     @staticmethod
     def get_metric():
