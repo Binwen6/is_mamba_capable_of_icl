@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression, Lasso
 import warnings
 from sklearn import tree
 import xgboost as xgb
-from s4_mod.s4_mod.s4_model import S4Model as S4ModelBase
+# from s4_mod.s4_mod.s4_model import S4Model as S4ModelBase
 from mamba_mod.mamba_mod.mixer_seq_simple import MambaLMHeadModelMOD, MambaConfig
 
 # try:
