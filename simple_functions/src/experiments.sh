@@ -30,4 +30,4 @@ done
 echo "DONE"
 echo "Finished at $(date)"
 
-# chmod +x run_icl_experiments.sh && ./run_icl_experiments.sh
+# chmod +x experiments.sh && ./experiments.sh
