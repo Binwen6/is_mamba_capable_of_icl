@@ -1,0 +1,21 @@
+Number of model trainable parameters
+22349057
+Number of model parameters
+23397633
+<torch.optim.lr_scheduler.CosineAnnealingLR object at 0x7f039d9797f0>
+0.0001
+loss 5.405628681182861:  40%|███████████████████████████████████                                                     | 199550/500001 [2:45:09<4:08:40, 20.14it/s]
+Traceback (most recent call last):
+  File "train.py", line 243, in <module>
+    main(args)
+  File "train.py", line 217, in main
+    train(model, args)
+  File "train.py", line 116, in train
+    loss, output = train_step(model, xs.to(device), ys.to(device), optimizer, loss_func)
+  File "train.py", line 40, in train_step
+    loss.backward()
+  File "/root/miniconda3/envs/simple_functions/lib/python3.8/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/root/miniconda3/envs/simple_functions/lib/python3.8/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt
