@@ -1,0 +1,46 @@
+{
+  "os": "Linux-5.15.0-131-generic-x86_64-with-glibc2.17",
+  "python": "CPython 3.8.20",
+  "startedAt": "2025-04-14T19:58:41.120586Z",
+  "args": [
+    "--config",
+    "conf/gaussian_kernel_regression_gpt2_fast.yaml"
+  ],
+  "program": "train.py",
+  "codePath": "simple_functions/src/train.py",
+  "git": {
+    "remote": "https://github.com/Binwen6/is_mamba_capable_of_icl.git",
+    "commit": "f6c0568408dd8a994d67ff305ffcaa199eef6361"
+  },
+  "email": "binwenliu.ai@gmail.com",
+  "root": "../models/gkr_gpt2_fast/a8f8373d-aab3-483b-acb6-72f5291b68e9",
+  "host": "4ba00cb59387",
+  "executable": "/root/miniconda3/envs/simple_functions/bin/python",
+  "codePathLocal": "train.py",
+  "cpu_count": 64,
+  "cpu_count_logical": 128,
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "107374182400",
+      "used": "12087189504"
+    }
+  },
+  "memory": {
+    "total": "743642402816"
+  },
+  "cpu": {
+    "count": 64,
+    "countLogical": 128
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memoryTotal": "25757220864",
+      "cudaCores": 16384,
+      "architecture": "Ada"
+    }
+  ],
+  "cudaVersion": "12.8"
+}

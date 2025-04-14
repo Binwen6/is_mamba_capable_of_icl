@@ -9,7 +9,7 @@ training:
   task: gaussian_kernel_regression
   seed: 1
   batch_size: 16
-  total_steps: 200
+  train_steps: 200
   curriculum:
     points:
       start: 11
