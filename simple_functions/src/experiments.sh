@@ -16,7 +16,7 @@
 
 #!/bin/bash
 
-for seed in 1 2 3
+for seed in 1# 2 3
 do
   for setting in linear_regression gaussian_kernel_regression nonlinear_dynamical_system
   do

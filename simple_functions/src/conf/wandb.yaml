@@ -1,5 +1,5 @@
 wandb:
     project: in-context-mamba
-    entity: in-context-mamba
+    entity: binwenliu-ai-xi-an-jiaotong-university-
     notes:
     log_every_steps: 100
