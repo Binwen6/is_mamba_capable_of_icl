@@ -11,21 +11,21 @@ palette = sns.color_palette("colorblind")
 
 
 relevant_model_names = {
-    "gkr_gpt2_fast": [
+    # "gkr_gpt2_fast": [
+    #     # "S4",
+    #     # "Mamba",
+    #     'Transformer', 
+    #     '3-Nearest Neighbors', 
+    #     'Averaging'
+    # ]
+    "linear_regression": [
         # "S4",
         # "Mamba",
-        'Transformer', 
-        '3-Nearest Neighbors', 
-        'Averaging'
-    ]
-    # "linear_regression": [
-    #     "S4",
-    #     "Mamba",
-    #     "Transformer",
-    #     "Least Squares",
-    #     # "3-Nearest Neighbors",
-    #     # "Averaging",
-    # ],
+        "Transformer",
+        "Least Squares",
+        "3-Nearest Neighbors",
+        "Averaging",
+    ],
     # "sparse_linear_regression": [
     #     "S4",
     #     "Mamba",
