@@ -250,6 +250,12 @@ def plot_icl_learning_curve(task: str, probing: bool = False, n_points_lr: int =
     elif task == 'decision_tree':
         mamba_path = '../results/decision_tree/mamba/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
         transformer_path = '../results/decision_tree/transformer/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
+    elif task == 'gaussian_kernel_regression':
+        mamba_path = '../results/gaussian_kernel_regression/mamba/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
+        transformer_path = '../results/gaussian_kernel_regression/transformer/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
+    elif task == 'nonlinear_dynamical_system':
+        mamba_path = '../results/nonlinear_dynamical_system/mamba/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
+        transformer_path = '../results/nonlinear_dynamical_system/transformer/decoder_probing_True_n_points_lr_10_mse_gaussian.csv'
     else:
         raise NotImplementedError(f'Unknown task {task}')
 
