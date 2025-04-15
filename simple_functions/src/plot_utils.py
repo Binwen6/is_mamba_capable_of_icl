@@ -14,7 +14,7 @@ relevant_model_names = {
     "gkr_gpt2_fast": [
         # "S4",
         # "Mamba",
-        'Transformer-4L8H', 
+        'Transformer', 
         '3-Nearest Neighbors', 
         'Averaging'
     ]
@@ -114,6 +114,7 @@ def basic_plot(metrics, size, models=None, trivial=1.0, title=None, n_train_poin
 def collect_results(run_dir, df, valid_row=None, rename_eval=None, rename_model=None, xlim=None,
                     no_recompute=False):
     all_metrics = {}
+
     for _, r in df.iterrows():
         if valid_row is not None and not valid_row(r):
             continue
@@ -126,25 +127,28 @@ def collect_results(run_dir, df, valid_row=None, rename_eval=None, rename_model=
 
         for eval_name, results in sorted(metrics.items()):
             processed_results = {}
+
             for model_name, m in results.items():
+                original_model_name = model_name
+
+                # 保留原始名字（用于 rename_model 阶段）
                 if "gpt2" in model_name or "mamba" in model_name or "s4" in model_name:
-                    model_name = r.model
-                    if "s4" in model_name:
-                        model_name = "S4"
-                    elif rename_model is not None:
-                        model_name = rename_model(model_name, r)
+                    pass  # 不修改
                 else:
                     model_name = baseline_names(model_name)
+
                 m_processed = {}
                 n_dims = conf.model.n_dims
 
-                if xlim is None:
+                # 自动设置 xlim（只设置一次）
+                local_xlim = xlim
+                if local_xlim is None:
                     if r.task in ["relu_2nn_regression", "decision_tree"]:
-                        xlim = 200 
+                        local_xlim = 200 
                     else:
-                        xlim = 2 * n_dims + 1
+                        local_xlim = 2 * n_dims + 1
 
-
+                # loss 归一化（例如除以维度）
                 normalization = n_dims
                 if r.task == "sparse_linear_regression":
                     normalization = int(r.kwargs.split("=")[-1])
@@ -152,13 +156,15 @@ def collect_results(run_dir, df, valid_row=None, rename_eval=None, rename_model=
                     normalization = 1
 
                 for k, v in m.items():
-                    v = v[:xlim]
+                    v = v[:local_xlim]
                     v = [vv / normalization for vv in v]
                     m_processed[k] = v
-                processed_results[model_name] = m_processed
+
+                processed_results[original_model_name] = m_processed  # ✅ 保留原始 key
             if rename_eval is not None:
                 eval_name = rename_eval(eval_name, r)
             if eval_name not in all_metrics:
                 all_metrics[eval_name] = {}
             all_metrics[eval_name].update(processed_results)
+
     return all_metrics

@@ -337,7 +337,8 @@ def get_run_metrics(
 
 def conf_to_model_name(conf):
     if conf.model.family == "gpt2":
-        return f"Transformer-{conf.model.n_layer}L{conf.model.n_head}H"
+        # return f"Transformer-{conf.model.n_layer}L{conf.model.n_head}H"
+        return f"Transformer"
     else:
         return conf.wandb.name
 
