@@ -18,7 +18,7 @@ training:
     learning_rate_schedule: cosine
     save_every_steps: 1000
     keep_every_steps: 100000
-    train_steps: 500001
+    train_steps: 50001
     curriculum:
         dims:
             start: 5
