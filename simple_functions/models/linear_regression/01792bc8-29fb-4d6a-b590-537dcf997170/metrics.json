@@ -1,0 +1,17 @@
+{
+  "standard": {},
+  "random_quadrants": {},
+  "orthogonal_train_test": {},
+  "overlapping_train_test": {},
+  "half_subspace": {},
+  "skewed": {},
+  "scale-x=0.333": {},
+  "scale-x=0.5": {},
+  "scale-x=2": {},
+  "scale-x=3": {},
+  "scale-y=0.333": {},
+  "scale-y=0.5": {},
+  "scale-y=2": {},
+  "scale-y=3": {},
+  "noisyLR": {}
+}

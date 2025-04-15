@@ -11,54 +11,61 @@ palette = sns.color_palette("colorblind")
 
 
 relevant_model_names = {
-    "linear_regression": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        "Least Squares",
-        # "3-Nearest Neighbors",
-        # "Averaging",
-    ],
-    "sparse_linear_regression": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        "Least Squares",
-        # "3-Nearest Neighbors",
-        # "Averaging",
-        "Lasso (alpha=0.01)",
-    ],
-    "decision_tree": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        # "3-Nearest Neighbors",
-        # "2-layer NN, GD",
-        # "Greedy Tree Learning",
-        "XGBoost",
-    ],
-    "relu_2nn_regression": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        "Least Squares",
-        # "3-Nearest Neighbors",
-        "2-layer NN, GD",
-    ],
-    "gaussian_kernel_regression": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        # "3-Nearest Neighbors",
-        # "Averaging",
-    ],
-    "nonlinear_dynamical_system": [
-        "S4",
-        "Mamba",
-        "Transformer",
-        # "3-Nearest Neighbors",
-        # "Averaging",
+    "gkr_gpt2_fast": [
+        # "S4",
+        # "Mamba",
+        'Transformer-4L8H', 
+        '3-Nearest Neighbors', 
+        'Averaging'
     ]
+    # "linear_regression": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     "Least Squares",
+    #     # "3-Nearest Neighbors",
+    #     # "Averaging",
+    # ],
+    # "sparse_linear_regression": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     "Least Squares",
+    #     # "3-Nearest Neighbors",
+    #     # "Averaging",
+    #     "Lasso (alpha=0.01)",
+    # ],
+    # "decision_tree": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     # "3-Nearest Neighbors",
+    #     # "2-layer NN, GD",
+    #     # "Greedy Tree Learning",
+    #     "XGBoost",
+    # ],
+    # "relu_2nn_regression": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     "Least Squares",
+    #     # "3-Nearest Neighbors",
+    #     "2-layer NN, GD",
+    # ],
+    # "gaussian_kernel_regression": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     # "3-Nearest Neighbors",
+    #     # "Averaging",
+    # ],
+    # "nonlinear_dynamical_system": [
+    #     "S4",
+    #     "Mamba",
+    #     "Transformer",
+    #     # "3-Nearest Neighbors",
+    #     # "Averaging",
+    # ]
 }
 
 
